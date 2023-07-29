@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Blood Bank Management</title>
+   <link rel="stylesheet" href="swiper-bundle.min.css">
+   <script src="https://kit.fontawesome.com/891581d6b3.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="card_style.css">
+   {{!-- <link rel="stylesheet" href="styleS.css"> --}}
+</head>
+
+<body>
+   <div class="slide-container swiper">
+      <div class="slide-content">
+         <div class="card-wrapper swiper-wrapper">
+
+            <!--cards -->
+            {{#each cardsdata}}
+
+            <div class="card swiper-slide">
+               <div class="image-content">
+                  <span class="overlay"></span>
+
+                  <div class="card-image">
+                     <img
+                        src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=1380&t=st=1681406201~exp=1681406801~hmac=114ca239640fac8e4ba0037093fe1b1b05fff15817ed03fe74d0e67a22439c02"
+                        alt="" class="card-img">
+                  </div>
+               </div>
+
+               <div class="card-content">
+                  <h2 class="name">{{ this.fullName }}</h2>
+                  <p class="description">
+                  <div class="blood">{{ this.bloodgrp}}</div>
+                  <div class="age"><span>Age:</span>
+                     <div class="ageNum"> {{this.age}}</div>
+                  </div>
+                  <div class="age"><span>Gender:</span>
+                     <div class="GenVal"> {{this.gender}}</div>
+                  </div>
+                  <i style="margin: 20px 0px 10px;" class="fa-solid fa-phone fa-beat fa-xl">
+                     <div class="mob"> {{this.Mob}}</div>
+                  </i>
+                  </p>
+               </div>
+            </div>
+            {{/each}}
+
+         </div>
+      </div>
+
+      <div class="swiper-button-next swiper-navBtn"></div>
+      <div class="swiper-button-prev swiper-navBtn"></div>
+      <div class="swiper-pagination"></div>
+   </div>
+</body>
+<script src="swiper-bundle.min.js"></script>
+<script src="script.js"></script>
+
+</html>

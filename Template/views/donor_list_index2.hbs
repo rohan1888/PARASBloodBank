@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Bank Management</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
+    <link rel="stylesheet" href="./dashboard_style.css">
+    <link rel="stylesheet" href="./donor_list_style2.css">
+</head>
+<script>
+        function show_hide() {
+    var click = document.getElementById("dropdown-content");
+    if (click.style.display === "block") {
+      click.style.display = "none";
+    } else {
+      click.style.display = "block";
+    }
+  }
+
+  // Function to hide the logout dropdown menu
+  function hideLogoutMenu() {
+    var logoutMenu = document.getElementById("dropdown-content");
+    logoutMenu.style.display = "none";
+  }
+
+  document.addEventListener("click", function (event) {
+    var logoutButton = document.getElementById("user-profile");
+    var logoutMenu = document.getElementById("dropdown-content");
+    const targetElement = event.target;
+
+    // Check if the click occurred inside the logoutButton or the dropdown menu
+    if (
+      targetElement !== logoutButton &&
+      !logoutButton.contains(targetElement) &&
+      targetElement !== logoutMenu &&
+      !logoutMenu.contains(targetElement)
+    ) {
+      hideLogoutMenu();
+    }
+  });
+</script> 
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="app">
+        <header class="app-header">
+            <div class="app-header-logo">
+                <div class="logo">
+                    <span class="logo-icon">
+                        <img src="https://assets.codepen.io/285131/almeria-logo.svg" />
+                    </span>
+                    <h1 class="logo-title">
+                        <span>PARAS</span>
+                        <span>OnBLoodBank</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="app-header-navigation">
+                <div class="tabs">
+                    <a href="#" class="bordercol">
+                        Welcome To Admin Panel !
+                    </a>
+                </div>
+            </div>
+             <div class="app-header-actions" onclick="show_hide()">
+                                <button class="user-profile" id="user-profile">
+                                        <span>UserName</span>
+                                        <div class="dropdown" >
+                                        		<span>
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeGL4q-8fsn0laf9xBKMk5lcsMAi-ybmbFv0EL7W_xqw&usqp=CAU&ec=48665701" />
+                                        		</span>
+                                        		<div class="dropdown-content" id="dropdown-content">
+                                                        <a href="/">Logout</a>
+                                                	</div>
+                                          </div>
+                                </button>
+            	</div>
+            <div class="app-header-mobile">
+                <button class="icon-button large">
+                    <i class="ph-list"></i>
+                </button>
+            </div>
+
+        </header>
+        <div class="app-body">
+            <div class="app-body-navigation">
+                <nav class="navigation">
+                   <a href="/dashboard_index">
+						<i class="ph-browsers"></i>
+						<span>Dashboard</span>
+					</a>
+					<a href="/add_donor_index">
+						<i class="ph-check-square"></i>
+						<span>Add Donor</span>
+					</a>
+					<a href="/donor_list_index">
+						<i class="ph-swap"></i>
+						<span>Donor List</span>
+					</a>
+					<a href="/Update_contact_info">
+						<i class="ph-clipboard-text"></i>
+						<span>Update Contact Info</span>
+					</a>
+                </nav>
+                <footer class="footer">
+                    <h1>PARAS<small>©</small></h1>
+                    <div>
+                        PARAS ©<br />
+                        All Rights Reserved 2023
+                    </div>
+                </footer>
+            </div>
+            <div class="app-body-main-content">
+                <section class="service-section">
+                    <h2>Donor List</h2>
+                    <div class="table-wrapper">
+                        <!-- table show per page -->
+                        <section class="header">
+                            <div class="items-controller">
+                                <h5>Show</h5>
+                                <Select id="itemperpage">
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="08">08</option>
+                                    <option value="12">12</option>
+                                    <option value="15">15</option>
+                                </Select>
+                                <h5>Per Page</h5>
+                            </div>
+                            <div class="search">
+                                <h5>Search</h5>
+                                <input type="text" name="" id="search" placeholder="search">
+                            </div>
+                        </section>
+                        
+                        <table class="fl-table">
+                            <thead>
+                                <tr>
+                                    <th>Sno.</th>
+                                    <th>Name</th>
+                                    <th>Blood</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Moblie No.</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody1">
+                                
+                              <!-- one donor list -->
+                              {{#each cardsdata}}
+                              <tr id="tr{{@index}}">
+                                    <td>{{@index}}</td>
+                                    <td>{{ this.fullName }}</td>
+                                    <td>{{ this.bloodgrp}}</td>
+                                    <td>{{this.age}}</td>
+                                    <td>{{this.gender}}</td>
+                                    <td>{{this.Mob}}</td>
+                                    <td><button type="button" class="button" onclick="deleteRow({{this.Mob}})">
+                                        <span class="button__text">Delete</span>
+                                        <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="512" viewBox="0 0 512 512" height="512" class="svg"><title></title><path style="fill:none;stroke:#323232;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320"></path><line y2="112" y1="112" x2="432" x1="80" style="stroke:#323232;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"></line><path style="fill:none;stroke:#323232;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40"></path><line y2="400" y1="176" x2="256" x1="256" style="fill:none;stroke:#323232;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line><line y2="400" y1="176" x2="192" x1="184" style="fill:none;stroke:#323232;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line><line y2="400" y1="176" x2="320" x1="328" style="fill:none;stroke:#323232;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line></svg></span>
+                                      </button></td>
+                                </tr>
+                                {{/each}} 
+                            </tbody>
+                        </table>
+                        <div class="bottom-field">
+                            <ul class="pagination">
+                                <li class="prev"><a href="#" id="prev">&#139</a></li>
+                                <li class="next"><a href="#" id="next">&#155</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </section>
+            </div>
+
+        </div>
+    </div>
+<script type="text/javascript" src="donor_list.js"></script>
+</body>
+</html>

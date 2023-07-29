@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Bank Management</title>
+  <link rel="stylesheet" href="/need-blood.css">
+  {{!-- <link rel="stylesheet" href="/styleS.css"> --}}
+</head>
+
+<body style="display: flex">
+  
+  <form id="form1">
+    <div class="form">
+      <div class="title">Need Blood</div>
+      <div class="subtitle">Fill in the required information</div>
+      <div class="input-container ic1">
+        <input id="firstname" class="input" name="bloodgrp" type="text" placeholder=" " />
+        <div class="cut"></div>
+        <label for="firstname" class="placeholder">Blood Group(cap letters only)</label>
+      </div>
+      <div class="input-container ic2">
+        <input id="lastname" class="input" type="text" placeholder=" " name="reason" />
+        <div class="cut"></div>
+        <label for="lastname" class="placeholder">Reason,Why you need Blood?</label>
+      </div>
+
+      <button class="button " type="submit" onclick="submitForm()" id="btns"> <span class="link">Search</span></button>
+
+    </div>
+  </form>
+  <script>
+    const firstNameInput = document.getElementById("firstname");
+    const lastNameInput = document.getElementById("lastname");
+    const searchButton = document.querySelector(".button");
+
+    function checkInputs() {
+      const firstNameValue = firstNameInput.value.trim();
+      const lastNameValue = lastNameInput.value.trim();
+
+      if (firstNameValue !== "" && lastNameValue !== "") {
+        searchButton.disabled = false;
+      } else {
+        searchButton.disabled = true;
+      }
+    }
+
+    function submitForm(event) {
+      const firstNameValue = firstNameInput.value.trim();
+      const lastNameValue = lastNameInput.value.trim();
+
+      if (firstNameValue === "" || lastNameValue === "") {
+        event.preventDefault();
+        alert("Please fill out both fields before submitting.");
+      }
+      else
+      {
+        document.getElementById('btns').setAttribute("type", "submit")
+        document.getElementById('form1').setAttribute("method", 'POST')
+        document.getElementById('form1').setAttribute("action", '/getBloodData')
+      }
+    }
+
+    firstNameInput.addEventListener("input", checkInputs);
+    lastNameInput.addEventListener("input", checkInputs);
+    // searchButton.addEventListener("click", submitForm);
+
+  </script>
+</body>
+
+</html>
