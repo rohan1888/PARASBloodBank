@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const hbs = require("hbs");
+require("dotenv").config();
 const mongoose = require('mongoose');
 const static_path = path.join(__dirname, "/public");
 const template_path = path.join(__dirname, "/Template/views");
@@ -11,7 +12,7 @@ app.set("view engine", "hbs");
 app.set("views", template_path);
 
 mongoose.set('strictQuery', false);
-const mongoDB = "mongodb+srv://12112159:9cw5ZEbGUTDcowBj@cluster0.4ixi9hg.mongodb.net/?retryWrites=true&w=majority"
+const mongoDB = process.env.MONGOURL;
 const adminModel = require('./admin.model')
 const donorModel = require('./donor.model')
 mongoose.connect(mongoDB).catch((err) => { if (err) { console.log(`Unable to connect to the server : ${err}`) } else { comsole.log("connected") }; })
@@ -29,7 +30,7 @@ app.post('/login', (req, res) => {
     const body = req.body
     const uname = body.userName
     const pass = body.password
-    console.log(uname)
+    // console.log(uname)
     adminModel.find({ userName: `${uname}` }).then(db => {
         console.log(db[0].password);
         if (db[0].password === `${pass}`) {
@@ -39,7 +40,7 @@ app.post('/login', (req, res) => {
             res.redirect('/')
         }
     }).catch((err) => {
-        console.log(err)
+        // console.log(err)
         res.redirect('/')
     })
 })
@@ -63,13 +64,13 @@ app.get('/need', (req, res) => {
 app.post('/getBloodData', (req, res) => {
     const body = req.body;
     const blood = body.bloodgrp;
-    console.log(blood);
+    // console.log(blood);
 
     donorModel
         .find({ bloodgrp: blood })
         .then(db => {
             if (db && db.length > 0) {
-                console.log(db)
+                // console.log(db)
                 res.render('card', { cardsdata: db });
             } else {
                 res.send('No donor with the given blood group found.');
@@ -134,6 +135,8 @@ app.post('/deleteRow', (req, res) => {
 app.get('/Update_contact_info', (req, res) => {
     res.render("Update_contact_info_index");
 })
+
+
 app.get('*', (req, res) => {
     res.render("index");
 })
@@ -167,6 +170,6 @@ app.post('/saved', (req, res) => {
 
 })
 
-app.listen(5000, () => {
-    console.log("server listening at 5000 port");
+app.listen(process.env.PORT, () => {
+    console.log("server listening");
 })
